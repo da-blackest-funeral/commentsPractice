@@ -14,10 +14,10 @@ class Comments extends Migration
     public function up()
     {
         Schema::create('comments', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->text('message');
-            $table->timestamps();
+           $table->id();
+           $table->text('message');
+           $table->integer('owner_id');
+           $table->timestamps();
         });
     }
 
@@ -28,6 +28,6 @@ class Comments extends Migration
      */
     public function down()
     {
-        Schema::drop('flights');
+        //
     }
 }

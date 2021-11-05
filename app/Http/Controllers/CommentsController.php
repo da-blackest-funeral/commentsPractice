@@ -10,11 +10,18 @@ class CommentsController extends Controller
 {
     private $commentsPerPage = 3;
 
-    public function showPage(Request $request)
+    public function show(Request $request)
     {
         $allComments = Comments::paginate(3);
+
+        if ($request->url() == "http://localhost") {
+            $view = "welcome";
+        } else {
+            $view = "templates.allComments";
+        }
+
         if ($request->get('page') <= $allComments->lastPage()) {
-            return view("welcome")
+            return view($view)
                 ->with('allComments', $allComments);
         } else {
             return redirect("/?page={$allComments->lastPage()}");
@@ -29,7 +36,6 @@ class CommentsController extends Controller
         ]);
         //dd([$validatedFields['name'], $validatedFields['message'], Auth::user()->id]);
         Comments::create([
-            'name' => $validatedFields['name'],
             'message' => $validatedFields['message'],
             'owner_id' => Auth::user()->id
         ]);
